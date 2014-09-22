@@ -1,0 +1,102 @@
+<html>
+<head>
+   <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+   <style type="text/css">
+   		#clock, #hour_hand, #minute_hand, #second_hand {
+   			background-image: url(clock1.png);
+   		    margin:0 auto;
+   			background-repeat: no-repeat;
+   			background-color : transparent;
+   		}
+		#clock {
+			position: relative;
+			background-position:-180px -20px;
+			height: 800px;
+			width: 800px;
+		}
+		#hour_hand, #minute_hand, #second_hand {
+			position: absolute;
+			width:40px;
+			height:800px;
+			top:20px;
+			left:370px;
+		}
+		#hour_hand {
+			background-position:-110px -306px;
+			z-index: 100;
+		}
+		#minute_hand {
+			background-position:-64px -304px;
+			z-index: 50;
+			
+		}
+		#second_hand {
+			background-position:-20px -307px;
+			z-index: 20;
+		}
+   </style>
+</head>
+
+<body>
+
+<div id="clock">
+	<div id="second_hand"></div>
+	<div id="minute_hand"></div>
+	<div id="hour_hand"></div>
+</div>
+
+<script>
+//获得当前时间
+var date=new Date();
+
+var hour=date.getHours()%12;
+var minute=date.getMinutes();
+var second=date.getSeconds();
+
+//根据时间，移动调整指针位置; 
+function initTime(h,m,s)
+{
+   var h_deg=h*30+m/2+'deg';  
+   var m_deg=m*6+'deg';  
+   var s_deg=s*6+'deg';
+
+   $('#second_hand').css('transform','rotate('+s_deg);
+   $('#minute_hand').css('transform','rotate('+m_deg);
+   $('#hour_hand').css('transform','rotate('+h_deg);
+
+}
+//记录时间变化，调整指针位置
+function step()
+{  
+   second++;
+   if(second>59)
+   	 {  second=0;
+   	 	 minute++;
+   	     if (minute>59) 
+   	       {
+   	     	minute=0;
+   	    	 hour++;
+                 }
+                 if(hour>12)
+                 	{hour=0;}
+   	   }
+	   
+	  
+
+   initTime(hour,minute,second);
+
+    setTimeout(step,1000);
+}
+
+
+window.onload=function()
+{
+  initTime(hour,minute,second);
+   step();
+
+}
+</script>
+
+</body>
+
+</html>
